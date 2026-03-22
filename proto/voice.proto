@@ -1,0 +1,410 @@
+syntax = "proto3";
+
+package voice;
+
+option go_package = "github.com/your-org/nakama-voice/proto";
+
+// Channel types
+enum ChannelType {
+  CHANNEL_NON_POSITIONAL = 0;
+  CHANNEL_POSITIONAL = 1;
+  CHANNEL_DIRECTED = 2;
+  CHANNEL_ECHO = 3;
+  CHANNEL_CROSS_PARTY = 4;
+}
+
+// Permission roles
+enum PermissionRole {
+  ROLE_USER = 0;
+  ROLE_MODERATOR = 1;
+  ROLE_ADMIN = 2;
+  ROLE_OWNER = 3;
+}
+
+// Moderation action types
+enum ModerationAction {
+  ACTION_MUTE = 0;
+  ACTION_UNMUTE = 1;
+  ACTION_KICK = 2;
+  ACTION_BAN = 3;
+  ACTION_UNBAN = 4;
+}
+
+// Attenuation models for spatial audio
+enum AttenuationModel {
+  ATTENUATION_LINEAR = 0;
+  ATTENUATION_LOGARITHMIC = 1;
+  ATTENUATION_INVERSE_SQUARE = 2;
+}
+
+// 3D position
+message Position3D {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  float yaw = 4;
+  float pitch = 5;
+}
+
+// Room configuration
+message RoomConfig {
+  int32 max_participants = 1;
+  ChannelType default_channel_type = 2;
+  bool auto_recording = 3;
+  bool spatial_audio_enabled = 4;
+  AttenuationModel attenuation_model = 5;
+  float max_spatial_distance = 6;
+  float audio_cone_inner_angle = 7;
+  float audio_cone_outer_angle = 8;
+  float audio_cone_outer_gain = 9;
+  bool push_to_talk = 10;
+  int32 vad_aggressiveness = 11;
+}
+
+// Participant info for signaling
+message ParticipantInfo {
+  string user_id = 1;
+  string session_id = 2;
+  string username = 3;
+  PermissionRole role = 4;
+  bool muted = 5;
+  bool speaking = 6;
+  Position3D position = 7;
+  repeated string channels = 8;
+}
+
+// ICE server configuration
+message IceServer {
+  repeated string urls = 1;
+  string username = 2;
+  string credential = 3;
+}
+
+// Channel info
+message ChannelInfo {
+  string id = 1;
+  string label = 2;
+  ChannelType type = 3;
+  int32 priority = 4;
+  repeated string members = 5;
+}
+
+// Signaling message envelope
+message SignalingEnvelope {
+  int32 opcode = 1;
+  int64 sequence = 2;
+  int64 timestamp = 3;
+  bytes payload = 4;
+}
+
+// === Signaling Payloads ===
+
+message RoomJoinRequest {
+  string room_id = 1;
+  repeated string channels = 2;
+  Position3D position = 3;
+}
+
+message SDPMessage {
+  string room_id = 1;
+  string sdp = 2;
+  string type = 3;
+}
+
+message IceCandidateMessage {
+  string room_id = 1;
+  string candidate = 2;
+  string sdp_mid = 3;
+  int32 sdp_mline_index = 4;
+}
+
+message RoomLeaveMessage {
+  string room_id = 1;
+}
+
+message RoomStateMessage {
+  string room_id = 1;
+  repeated ParticipantInfo participants = 2;
+  repeated ChannelInfo channels = 3;
+  repeated IceServer ice_servers = 4;
+  RoomConfig config = 5;
+}
+
+message ParticipantJoinedMessage {
+  string room_id = 1;
+  ParticipantInfo participant = 2;
+}
+
+message ParticipantLeftMessage {
+  string room_id = 1;
+  string user_id = 2;
+}
+
+message MuteStateMessage {
+  string room_id = 1;
+  string user_id = 2;
+  bool muted = 3;
+}
+
+message PTTStateMessage {
+  string room_id = 1;
+  bool pressed = 2;
+}
+
+message VADStateMessage {
+  string room_id = 1;
+  string user_id = 2;
+  bool speaking = 3;
+}
+
+message PositionUpdateMessage {
+  string room_id = 1;
+  Position3D position = 2;
+}
+
+message SpatialParamsMessage {
+  string room_id = 1;
+  repeated SpatialParam params = 2;
+}
+
+message SpatialParam {
+  string source_user_id = 1;
+  float gain = 2;
+  float azimuth = 3;
+  float elevation = 4;
+  float distance = 5;
+}
+
+message ChannelJoinMessage {
+  string room_id = 1;
+  string channel_id = 2;
+}
+
+message ChannelLeaveMessage {
+  string room_id = 1;
+  string channel_id = 2;
+}
+
+message KickNotifyMessage {
+  string room_id = 1;
+  string reason = 2;
+  int32 cooldown_seconds = 3;
+}
+
+message BanNotifyMessage {
+  string room_id = 1;
+  string reason = 2;
+  int64 duration_seconds = 3;
+}
+
+message ErrorMessage {
+  int32 code = 1;
+  string message = 2;
+  map<string, string> details = 3;
+}
+
+message ModerationActionMessage {
+  string room_id = 1;
+  ModerationAction action = 2;
+  string target_user_id = 3;
+  string reason = 4;
+  int64 duration_seconds = 5;
+}
+
+message WhisperMessage {
+  string room_id = 1;
+  string target_user_id = 2;
+}
+
+message PingMessage {
+  int64 timestamp = 1;
+}
+
+message PongMessage {
+  int64 timestamp = 1;
+  int64 server_time = 2;
+}
+
+message RecordingStateMessage {
+  string room_id = 1;
+  bool recording = 2;
+  string recording_id = 3;
+}
+
+message ChannelStateMessage {
+  string room_id = 1;
+  string channel_id = 2;
+  repeated string members = 3;
+}
+
+// === Storage Types ===
+
+message RoomMetadata {
+  string id = 1;
+  string match_id = 2;
+  string label = 3;
+  string owner_id = 4;
+  RoomConfig config = 5;
+  int64 created_at = 6;
+  int32 participant_count = 7;
+}
+
+message BanRecord {
+  string user_id = 1;
+  string room_id = 2;
+  string banned_by = 3;
+  string reason = 4;
+  int64 created_at = 5;
+  int64 expires_at = 6;
+  bool permanent = 7;
+}
+
+message RecordingMetadata {
+  string id = 1;
+  string room_id = 2;
+  repeated string participant_ids = 3;
+  int64 started_at = 4;
+  int64 ended_at = 5;
+  int64 duration_ms = 6;
+  string download_url = 7;
+  string storage_backend = 8;
+  string storage_path = 9;
+  bool encrypted = 10;
+}
+
+message AuditEntry {
+  string id = 1;
+  string room_id = 2;
+  string actor_id = 3;
+  string target_id = 4;
+  ModerationAction action = 5;
+  string reason = 6;
+  int64 timestamp = 7;
+  map<string, string> metadata = 8;
+}
+
+// === RPC Request/Response Types ===
+
+message CreateRoomRequest {
+  string label = 1;
+  RoomConfig config = 2;
+}
+
+message CreateRoomResponse {
+  string room_id = 1;
+  string match_id = 2;
+}
+
+message GetRoomRequest {
+  string room_id = 1;
+}
+
+message GetRoomResponse {
+  RoomMetadata room = 1;
+  repeated ParticipantInfo participants = 2;
+}
+
+message ListRoomsRequest {
+  int32 limit = 1;
+  string cursor = 2;
+}
+
+message ListRoomsResponse {
+  repeated RoomMetadata rooms = 1;
+  string cursor = 2;
+}
+
+message DeleteRoomRequest {
+  string room_id = 1;
+}
+
+message DeleteRoomResponse {
+  bool success = 1;
+}
+
+message RoomParticipantsRequest {
+  string room_id = 1;
+}
+
+message RoomParticipantsResponse {
+  repeated ParticipantInfo participants = 1;
+}
+
+message TurnCredentialsRequest {}
+
+message TurnCredentialsResponse {
+  repeated IceServer servers = 1;
+  int64 ttl = 2;
+}
+
+message ModerationMuteRequest {
+  string room_id = 1;
+  string target_user_id = 2;
+  bool muted = 3;
+  int64 duration_seconds = 4;
+  string reason = 5;
+}
+
+message ModerationMuteResponse {
+  bool success = 1;
+}
+
+message ModerationKickRequest {
+  string room_id = 1;
+  string target_user_id = 2;
+  string reason = 3;
+  int32 cooldown_seconds = 4;
+}
+
+message ModerationKickResponse {
+  bool success = 1;
+}
+
+message ModerationBanRequest {
+  string room_id = 1;
+  string target_user_id = 2;
+  string reason = 3;
+  int64 duration_seconds = 4;
+  bool permanent = 5;
+}
+
+message ModerationBanResponse {
+  bool success = 1;
+}
+
+message ListRecordingsRequest {
+  string room_id = 1;
+  int32 limit = 2;
+  string cursor = 3;
+}
+
+message ListRecordingsResponse {
+  repeated RecordingMetadata recordings = 1;
+  string cursor = 2;
+}
+
+message DeleteRecordingRequest {
+  string recording_id = 1;
+}
+
+message DeleteRecordingResponse {
+  bool success = 1;
+}
+
+message MetricsGetRequest {}
+
+message MetricsGetResponse {
+  int32 active_rooms = 1;
+  int32 active_participants = 2;
+  int32 active_recordings = 3;
+  int32 cluster_nodes = 4;
+  map<string, double> metrics = 5;
+}
+
+message ConfigUpdateRequest {
+  map<string, string> overrides = 1;
+}
+
+message ConfigUpdateResponse {
+  bool success = 1;
+}
