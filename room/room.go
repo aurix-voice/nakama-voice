@@ -5,9 +5,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/your-org/nakama-voice/audio"
-	"github.com/your-org/nakama-voice/config"
-	"github.com/your-org/nakama-voice/signaling"
+	"github.com/aurix-voice/nakama-voice/audio"
+	"github.com/aurix-voice/nakama-voice/config"
+	"github.com/aurix-voice/nakama-voice/signaling"
 )
 
 // Participant represents a user in a voice room.

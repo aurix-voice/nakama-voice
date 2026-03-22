@@ -10,8 +10,8 @@ import (
 
 	"github.com/heroiclabs/nakama-common/runtime"
 
-	"github.com/your-org/nakama-voice/metrics"
-	"github.com/your-org/nakama-voice/room"
+	"github.com/aurix-voice/nakama-voice/metrics"
+	"github.com/aurix-voice/nakama-voice/room"
 )
 
 // Moderator handles all moderation actions within voice rooms.

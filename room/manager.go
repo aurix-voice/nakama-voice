@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/your-org/nakama-voice/config"
-	"github.com/your-org/nakama-voice/metrics"
+	"github.com/aurix-voice/nakama-voice/config"
+	"github.com/aurix-voice/nakama-voice/metrics"
 )
 
 // Manager is the room registry that handles thread-safe room creation,

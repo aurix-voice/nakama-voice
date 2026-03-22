@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/your-org/nakama-voice/signaling"
+	"github.com/aurix-voice/nakama-voice/signaling"
 )
 
 // Channel represents a communication pathway within a voice room.

@@ -9,15 +9,15 @@ import (
 
 	"github.com/heroiclabs/nakama-common/runtime"
 
-	"github.com/your-org/nakama-voice/cluster"
-	"github.com/your-org/nakama-voice/config"
-	"github.com/your-org/nakama-voice/metrics"
-	"github.com/your-org/nakama-voice/moderation"
-	"github.com/your-org/nakama-voice/room"
-	"github.com/your-org/nakama-voice/sfu"
-	"github.com/your-org/nakama-voice/signaling"
-	"github.com/your-org/nakama-voice/storage"
-	"github.com/your-org/nakama-voice/turn"
+	"github.com/aurix-voice/nakama-voice/cluster"
+	"github.com/aurix-voice/nakama-voice/config"
+	"github.com/aurix-voice/nakama-voice/metrics"
+	"github.com/aurix-voice/nakama-voice/moderation"
+	"github.com/aurix-voice/nakama-voice/room"
+	"github.com/aurix-voice/nakama-voice/sfu"
+	"github.com/aurix-voice/nakama-voice/signaling"
+	"github.com/aurix-voice/nakama-voice/storage"
+	"github.com/aurix-voice/nakama-voice/turn"
 )
 
 // RPCHandlers holds references to all subsystems needed by RPC endpoints.

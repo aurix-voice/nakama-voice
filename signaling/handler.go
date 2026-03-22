@@ -8,7 +8,7 @@ import (
 
 	"github.com/heroiclabs/nakama-common/runtime"
 
-	"github.com/your-org/nakama-voice/metrics"
+	"github.com/aurix-voice/nakama-voice/metrics"
 )
 
 // Handler dispatches incoming signaling messages from Nakama's WebSocket

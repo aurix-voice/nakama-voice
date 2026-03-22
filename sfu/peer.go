@@ -10,7 +10,7 @@ import (
 	"github.com/pion/rtp"
 	"github.com/pion/webrtc/v3"
 
-	"github.com/your-org/nakama-voice/metrics"
+	"github.com/aurix-voice/nakama-voice/metrics"
 )
 
 // PeerState represents the current state of an SFU peer connection.

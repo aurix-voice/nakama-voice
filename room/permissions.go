@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/your-org/nakama-voice/signaling"
+	"github.com/aurix-voice/nakama-voice/signaling"
 )
 
 // Action represents a moderation or room management action that requires

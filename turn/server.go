@@ -12,8 +12,8 @@ import (
 
 	pionTurn "github.com/pion/turn/v2"
 
-	"github.com/your-org/nakama-voice/config"
-	"github.com/your-org/nakama-voice/metrics"
+	"github.com/aurix-voice/nakama-voice/config"
+	"github.com/aurix-voice/nakama-voice/metrics"
 )
 
 // Server implements a built-in RFC 5766 TURN relay server using pion/turn.

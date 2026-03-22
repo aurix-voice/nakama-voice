@@ -12,12 +12,12 @@ import (
 	"github.com/pion/rtp"
 	"github.com/pion/webrtc/v3"
 
-	"github.com/your-org/nakama-voice/audio"
-	"github.com/your-org/nakama-voice/config"
-	"github.com/your-org/nakama-voice/metrics"
-	"github.com/your-org/nakama-voice/room"
-	"github.com/your-org/nakama-voice/sfu"
-	"github.com/your-org/nakama-voice/signaling"
+	"github.com/aurix-voice/nakama-voice/audio"
+	"github.com/aurix-voice/nakama-voice/config"
+	"github.com/aurix-voice/nakama-voice/metrics"
+	"github.com/aurix-voice/nakama-voice/room"
+	"github.com/aurix-voice/nakama-voice/sfu"
+	"github.com/aurix-voice/nakama-voice/signaling"
 )
 
 // VoiceMatchHandler implements all seven Nakama match lifecycle methods

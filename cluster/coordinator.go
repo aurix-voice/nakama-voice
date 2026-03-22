@@ -15,8 +15,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
 
-	"github.com/your-org/nakama-voice/config"
-	"github.com/your-org/nakama-voice/metrics"
+	"github.com/aurix-voice/nakama-voice/config"
+	"github.com/aurix-voice/nakama-voice/metrics"
 )
 
 // Coordinator manages cluster-wide room assignment using consistent hashing,
